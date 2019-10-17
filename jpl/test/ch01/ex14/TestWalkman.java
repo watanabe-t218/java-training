@@ -10,7 +10,7 @@ class TestWalkman {
 	void testWalkman() {
 		int serial = 0;
 		Walkman walkman = new Walkman(serial);
-		assertDoesNotThrow(()->{walkman.play();}, "cannnot play()");
+		walkman.play();
 		assertEquals(serial, walkman.serial);
 		assertEquals(1, walkman.terminal);
 	}
