@@ -1,0 +1,39 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - Vehicle",
+            "request": "launch",
+            "mainClass": "ex18.Vehicle",
+            "projectName": "jpl"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - DegitalClock",
+            "request": "launch",
+            "mainClass": "dc1_1.DegitalClock",
+            "projectName": "dc"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - DegitalClock",
+            "request": "launch",
+            "mainClass": "DegitalClock",
+            "projectName": "java-training_9e2b5e4c"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - User",
+            "request": "launch",
+            "mainClass": "ex14.User",
+            "projectName": "java-training_9e2b5e4c"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - HelloWorld",
+            "request": "launch",
+            "mainClass": "ex01.HelloWorld",
+            "projectName": "java-training_9e2b5e4c"
+        }
+    ]
+}

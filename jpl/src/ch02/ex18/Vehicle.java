@@ -59,6 +59,8 @@ public class Vehicle {
 	 * */
 	public Vehicle() {
 		this.id = Vehicle.nextId++;
+		this.velocity = 0.0;
+		this.angle = 0.0;
 	}
 
 	/**
@@ -68,6 +70,8 @@ public class Vehicle {
 	public Vehicle(String userName) {
 		this.id = Vehicle.nextId++;
 		this.userName = userName;
+		this.velocity = 0.0;
+		this.angle = 0.0;
 	}
 	
 	/**

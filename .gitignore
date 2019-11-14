@@ -1,7 +1,2 @@
 .metadata/
 bin/
-/.vscode/
-.project
-.classpath
-org.eclipse.jdt.core.pref
-settings/

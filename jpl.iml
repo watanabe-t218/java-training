@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <output url="file://$MODULE_DIR$/jpl/bin" />
+    <exclude-output />
+    <content url="file://$MODULE_DIR$/jpl">
+      <sourceFolder url="file://$MODULE_DIR$/jpl/src/ch01" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/jpl/src/ch02" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/jpl/test/ch01" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/jpl/test/ch02" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/jpl/test/ch03" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/jpl/test/ch04" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/jpl/test/ch05" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/jpl/test/ch06" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/jpl/src/ch03" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/jpl/src/ch04" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/jpl/src/ch05" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/jpl/src/ch06" isTestSource="false" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module-library">
+      <library name="junit5">
+        <CLASSES>
+          <root url="jar://$APPLICATION_HOME_DIR$/lib/junit.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+  </component>
+</module>

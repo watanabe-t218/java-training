@@ -10,7 +10,7 @@ class TestEx06 {
 	void testGenerateList() {
 		int vehicleNum = 10;
 		
-		Vehicle[] vehicles = new Vehicle[vehicleNum];
+		VehicleEx06[] vehicles = new VehicleEx06[vehicleNum];
 		
 		// generate first linked list
 		LinkedList start = new LinkedList(null);
@@ -26,7 +26,7 @@ class TestEx06 {
 			}
 			
 			double direction[] = {(double)i, (double)i, (double)i};
-			vehicles[i] = new Vehicle(
+			vehicles[i] = new VehicleEx06(
 					id, 		// id
 					i + 1, 		// nextId
 					"user" + i, // userName
@@ -49,7 +49,7 @@ class TestEx06 {
 		// test showData()
 		index = start.next;
 		while(index.data != null) {
-			Vehicle nowVehicle = (Vehicle) index.data;
+			VehicleEx06 nowVehicle = (VehicleEx06) index.data;
 			System.out.println(nowVehicle);
 			assertDoesNotThrow(()->{nowVehicle.showData();});
 			index = index.next;
