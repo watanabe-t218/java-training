@@ -1,0 +1,32 @@
+1. 
+public class BadNumberException extends Exception {
+	public Number item;
+	
+	public ObjectNotFoundException(Number item) {
+		super("Cannot set Number \"" +item.toString()+ "\"");
+		this.item = item;
+	}
+}
+
+2.
+JsonException
+https://docs.oracle.com/javaee/7/api/javax/json/JsonException.html
+
+3.
+検索の結果として，指定した単語は含まれていなかった．
+null
+
+4.
+FileNotFoundException
+https://docs.oracle.com/javase/jp/6/api/java/io/FileNotFoundException.html
+
+5.
+SecurityException
+https://docs.oracle.com/javame/config/cdc/ref-impl/cdc1.1.2/jsr218/ja/java/lang/SecurityException.html
+
+6.
+ConnectException
+SocketException
+
+7.
+ConnectException
