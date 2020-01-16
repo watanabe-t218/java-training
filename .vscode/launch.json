@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "CodeLens (Launch) - DigitalClock2",
+            "request": "launch",
+            "mainClass": "DigitalClock2",
+            "projectName": "dc"
+        },
+        {
+            "type": "java",
             "name": "CodeLens (Launch) - Vehicle",
             "request": "launch",
             "mainClass": "ex18.Vehicle",

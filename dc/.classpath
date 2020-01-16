@@ -7,5 +7,6 @@
 	</classpathentry>
 	<classpathentry excluding="dc/DigitalClock1.java" kind="src" path="dc1_1"/>
 	<classpathentry kind="src" path="dc1_2"/>
+	<classpathentry kind="src" path="dc1_3"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
