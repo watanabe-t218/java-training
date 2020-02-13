@@ -11,8 +11,8 @@ class TestLinkedList {
 		LinkedListCh12<String> stringList = new LinkedListCh12<String>();
 		LinkedListCh12<Number> numberList = new LinkedListCh12<Number>();
 		
-		assertEquals(null, stringList.getHead(), "¶¬’¼Œã‚Í‹ó‚Å‚ ‚é‚±‚Æ");
-		assertEquals(null, numberList.getHead(), "¶¬’¼Œã‚Í‹ó‚Å‚ ‚é‚±‚Æ");
+		assertEquals(null, stringList.getHead(), "ç”Ÿæˆç›´å¾Œã¯ç©ºã§ã‚ã‚‹ã“ã¨");
+		assertEquals(null, numberList.getHead(), "ç”Ÿæˆç›´å¾Œã¯ç©ºã§ã‚ã‚‹ã“ã¨");
 		
 		stringList.add("string 0");
 		stringList.add("string 1");
