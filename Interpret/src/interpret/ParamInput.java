@@ -131,8 +131,13 @@ public class ParamInput extends JFrame {
 					}
 					break;
 				}
+				close();
 			}			
 		});
+	}
+
+	private void close() {
+		this.dispose();
 	}
 	
 	private boolean isPremitive(String typeName) {
