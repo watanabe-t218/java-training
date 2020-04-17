@@ -13,6 +13,8 @@ public class Main {
 				try {
 					MainForm frame = new MainForm();
 					frame.setVisible(true);
+					FrameJTextAreaStream frameJTextAreaStream = new FrameJTextAreaStream();
+					frameJTextAreaStream.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

@@ -61,7 +61,7 @@ public class MainForm extends JFrame {
 	private JTextField objectNameTextField;
 	private JLabel lblObjectName;
 	private JLabel lblObjectClass;
-	private JTextArea consoleTextArea;
+//	private JTextArea consoleTextArea;
 	private JComboBox<?> comboBox;
 	private JComboBox<String> constructorComboBox;
 	private JLabel constructorLabel;
@@ -157,11 +157,11 @@ public class MainForm extends JFrame {
 				constructorLabel.setVisible(false);
 				contentPane.add(constructorLabel, gbc_constructorLabel);
 
-		consoleTextArea = new JTextArea();
-		consoleTextArea.setFont(new Font("Monospaced", Font.PLAIN, 12));
-		consoleTextArea.setEditable(false);
-		JTextAreaStream stream = new JTextAreaStream(consoleTextArea);
-		System.setOut(new PrintStream(stream, true));
+//		consoleTextArea = new JTextArea();
+//		consoleTextArea.setFont(new Font("Monospaced", Font.PLAIN, 12));
+//		consoleTextArea.setEditable(false);
+//		JTextAreaStream stream = new JTextAreaStream(consoleTextArea);
+//		System.setOut(new PrintStream(stream, true));
 
 		
 		// Class object create Button
@@ -196,6 +196,7 @@ public class MainForm extends JFrame {
 					java.lang.reflect.Type[] params = createObjectInstance
 							.getConstructorParams(constructorComboBox.getSelectedIndex());
 					constructorParams = params;
+					inputParams.clear();
 					String[][] data = new String[constructorParams.length][2];
 					for (int i = 0; i < constructorParams.length; i++) {
 						data[i][0] = constructorParams[i].getTypeName();
@@ -316,10 +317,10 @@ public class MainForm extends JFrame {
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		GridBagConstraints gbc_scroll_table = new GridBagConstraints();
 		gbc_scroll_table.insets = new Insets(0, 0, 5, 5);
-		gbc_scroll_table.gridheight = 5;
-		gbc_scroll_table.gridwidth = 2;
+		gbc_scroll_table.gridheight = 6;
+		gbc_scroll_table.gridwidth = 3;
 		gbc_scroll_table.fill = GridBagConstraints.BOTH;
-		gbc_scroll_table.gridx = 2;
+		gbc_scroll_table.gridx = 0;
 		gbc_scroll_table.gridy = 5;
 		contentPane.add(tableScrollpane, gbc_scroll_table);
 
@@ -346,30 +347,30 @@ public class MainForm extends JFrame {
 		GridBagConstraints gbc_scroll_table1 = new GridBagConstraints();
 		gbc_scroll_table1.fill = GridBagConstraints.BOTH;
 		gbc_scroll_table1.insets = new Insets(0, 0, 5, 5);
-		gbc_scroll_table1.gridwidth = 2;
-		gbc_scroll_table1.gridx = 2;
+		gbc_scroll_table1.gridwidth = 3;
+		gbc_scroll_table1.gridx = 0;
 		gbc_scroll_table1.gridy = 12;
 		contentPane.add(table1Scrollpane, gbc_scroll_table1);
 		
-		consoleTextArea.setForeground(Color.WHITE);
-		consoleTextArea.setBackground(Color.BLACK);
-		GridBagConstraints gbc_consoleTextArea = new GridBagConstraints();
-		gbc_consoleTextArea.gridwidth = 2;
-		gbc_consoleTextArea.fill = GridBagConstraints.BOTH;
-		gbc_consoleTextArea.gridx = 0;
-		gbc_consoleTextArea.gridy = 4;
-		contentPane.add(consoleTextArea, gbc_consoleTextArea);
+//		consoleTextArea.setForeground(Color.WHITE);
+//		consoleTextArea.setBackground(Color.BLACK);
+//		GridBagConstraints gbc_consoleTextArea = new GridBagConstraints();
+//		gbc_consoleTextArea.gridwidth = 2;
+//		gbc_consoleTextArea.fill = GridBagConstraints.BOTH;
+//		gbc_consoleTextArea.gridx = 0;
+//		gbc_consoleTextArea.gridy = 4;
+//		contentPane.add(consoleTextArea, gbc_consoleTextArea);
 
-		JScrollPane consoleTextAreaScrollpane = new JScrollPane(consoleTextArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		GridBagConstraints gbc_scroll_consoleTextArea = new GridBagConstraints();
-		gbc_scroll_consoleTextArea.insets = new Insets(0, 0, 5, 5);
-		gbc_scroll_consoleTextArea.gridheight = 8;
-		gbc_scroll_consoleTextArea.gridwidth = 2;
-		gbc_scroll_consoleTextArea.fill = GridBagConstraints.BOTH;
-		gbc_scroll_consoleTextArea.gridx = 0;
-		gbc_scroll_consoleTextArea.gridy = 5;
-		contentPane.add(consoleTextAreaScrollpane, gbc_scroll_consoleTextArea);
+//		JScrollPane consoleTextAreaScrollpane = new JScrollPane(consoleTextArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+//				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+//		GridBagConstraints gbc_scroll_consoleTextArea = new GridBagConstraints();
+//		gbc_scroll_consoleTextArea.insets = new Insets(0, 0, 5, 5);
+//		gbc_scroll_consoleTextArea.gridheight = 8;
+//		gbc_scroll_consoleTextArea.gridwidth = 2;
+//		gbc_scroll_consoleTextArea.fill = GridBagConstraints.BOTH;
+//		gbc_scroll_consoleTextArea.gridx = 0;
+//		gbc_scroll_consoleTextArea.gridy = 5;
+//		contentPane.add(consoleTextAreaScrollpane, gbc_scroll_consoleTextArea);
 
 		
 
