@@ -124,7 +124,7 @@ public class LinkedList implements Cloneable, LinkedListInerface {
 		if (node == null)
 			return null;
 		else if (value == null)
-			throw new IllegalArgumentException("nullはダメ");
+			throw new IllegalArgumentException("null");
 		else {
 			Object oldValue = node.value;
 			node.value = value;

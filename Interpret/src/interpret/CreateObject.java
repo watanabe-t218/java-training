@@ -88,9 +88,11 @@ public class CreateObject {
 	}
 
 	public Object createObject(Object[] params) {
+		Class<?>[] constructorParams = constructor.getParameterTypes();
+//		castParams(params[0], constructorParams[0]);
 		System.out.println("========[Parameters]========");
-		for (Object object : params) {
-			System.out.println(object.toString());
+		for (int i = 0; i < constructorParams.length; i++) {
+			System.out.println(params[i].toString());
 		}
 		try {
 			instance = constructor.newInstance(params);
@@ -111,9 +113,11 @@ public class CreateObject {
 			System.out.println(strField + "\t: " + setParam);
 
 			try {
-				if (!fields[i].get(instance).toString().equals(params[i].toString())) {
-					fields[i].set(instance, setParam);
-				}
+//				if (!fields[i].get(instance).toString().equals(params[i].toString())) {
+					if(params[i] != null) {
+						fields[i].set(instance, setParam);						
+					}
+//				}
 			} catch (IllegalAccessException | IllegalArgumentException | SecurityException e) {
 				System.out.println(e);
 			}
@@ -143,4 +147,31 @@ public class CreateObject {
 		}
 		return fields;
 	}
+
+//	public Object castParams(Object param, Class<?> cl) {
+//		if (int.class.equals(cl) || Integer.class.equals(cl)) {
+//			return Integer.valueOf(param.toString());
+//		}
+//		if (boolean.class.equals(cl) || Boolean.class.equals(cl)) {
+//			return Boolean.valueOf(param.toString());
+//		}
+//		if (Float.class.equals(cl) || float.class.equals(cl)) {
+//			return Float.valueOf(param.toString());
+//		}
+//		if (Double.class.equals(cl) || Double.class.equals(cl)) {
+//			return Double.valueOf(param.toString());
+//		}
+//		if (Long.class.equals(cl) || long.class.equals(cl)) {
+//			return Long.valueOf(param.toString());
+//		}
+//		if (short.class.equals(cl) || Short.class.equals(cl)) {
+//			return Short.valueOf(param.toString());
+//		}
+//		if (byte.class.equals(cl) || Byte.class.equals(cl)) {
+//			return Byte.valueOf(param.toString());
+//		}
+//		if (char.class.equals(cl) || Character.class.equals(cl)) {
+////			return Character.valueOf(param.toString());
+//		}
+//	}
 }

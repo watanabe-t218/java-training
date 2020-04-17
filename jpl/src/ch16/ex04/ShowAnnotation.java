@@ -6,7 +6,7 @@ public class ShowAnnotation {
 
 	public static void main(String[] args) {
 		try {
-			Class<?> c = Class.forName(args[0]);
+			Class<?> c = Class.forName("args");
 			Annotation[] annotations = c.getAnnotations();
 			for(Annotation a: annotations) {
 				System.out.println(a);

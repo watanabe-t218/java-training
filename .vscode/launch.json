@@ -2,6 +2,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "CodeLens (Launch) - DelimitedString",
+            "request": "launch",
+            "mainClass": "ex03.DelimitedString",
+            "projectName": "jpl"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - CountChar",
+            "request": "launch",
+            "mainClass": "ex01.CountChar",
+            "projectName": "jpl"
+        },
+        {
+            "type": "java",
             "name": "CodeLens (Launch) - DigitalClock2",
             "request": "launch",
             "mainClass": "DigitalClock2",

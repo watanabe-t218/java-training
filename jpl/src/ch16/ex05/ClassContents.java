@@ -9,7 +9,8 @@ public class ClassContents {
 
 	public static void main(String[] args) {
 		try {
-			Class<?> c = Class.forName(args[0]);
+			// Class<?> c = Class.forName(args[0]);
+			Class<?> c = Class.forName("java.lang.String");
 			System.out.println(c);
 			printMembers(removeDuplicateMembers(c.getFields(), c.getDeclaredFields()));
 			printMembers(removeDuplicateMembers(c.getConstructors(), c.getDeclaredConstructors()));

@@ -42,10 +42,19 @@ import javax.swing.ScrollPaneConstants;
 
 public class MainForm extends JFrame {
 
-	static public int step = 0;
-	static public int instanceMethodStep = 0;
+	public int step = 0;
+	public int instanceMethodStep = 0;
 	CreateObject createObjectInstance;
+	java.lang.reflect.Type[] constructorParams;
 	ArrayList<CreateObject> CreateObjectList = new ArrayList<CreateObject>();
+	List<Object> inputParams = new ArrayList<Object>(); // constructor input params
+	List<Object> parentsInputParams;
+	List<Object> instanceParams = new ArrayList<Object>(); // constructor input params
+	Object createdObject;
+	int parentIndex = 0;
+	List<Object> instanceMethodParams = new ArrayList<Object>();
+	List<String> instanceFieldTypes = new ArrayList<String>();
+
 
 	private JPanel contentPane;
 	private JTextField objectClassTextField;
@@ -70,21 +79,35 @@ public class MainForm extends JFrame {
 	private JComboBox instanceMethodComboBox;
 	private JButton btnChangeFields;
 	private JLabel lblCurrentinStance;
+	private JButton btnSetToParam;
 
 	/**
 	 * Create the frame.
 	 */
 	public MainForm() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		Create();
+	}
+
+	public MainForm(List<Object> inputParams, int parentIndex) {
+		Create();
+		this.parentsInputParams = inputParams;
+		this.parentIndex = parentIndex;
+	}
+	
+	public void Create() {
+
+		// layout
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 1366, 768);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		GridBagLayout gbl_contentPane = new GridBagLayout();
 		gbl_contentPane.columnWidths = new int[] { 135, 300, 350, 0, 350 };
-		gbl_contentPane.rowHeights = new int[] { 0, 0, 0, 10, 0, 10, 10, 10, 10, 28, 0, 0, 0 };
+		gbl_contentPane.rowHeights = new int[] { 0, 0, 0, 10, 0, 10, 10, 10, 10, 28, 0, 0, 0, 0, 0 };
 		gbl_contentPane.columnWeights = new double[] { 1.0, 1.0, 1.0, 0.0, 1.0 };
-		gbl_contentPane.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
+		gbl_contentPane.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE };
 		contentPane.setLayout(gbl_contentPane);
 				
 						lblObjectClass = new JLabel("Object Class");
@@ -140,12 +163,14 @@ public class MainForm extends JFrame {
 		JTextAreaStream stream = new JTextAreaStream(consoleTextArea);
 		System.setOut(new PrintStream(stream, true));
 
+		
+		// Class object create Button
 		JButton objectCreateButton = new JButton("Continue");
 		objectCreateButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
 				switch (step) {
-				case 0:
+				case 0:// class name
 					String objectName = objectNameTextField.getText();
 					String className = objectClassTextField.getText();
 
@@ -167,13 +192,15 @@ public class MainForm extends JFrame {
 						}
 					}
 					break;
-				case 1:
+				case 1:// constructor
 					java.lang.reflect.Type[] params = createObjectInstance
 							.getConstructorParams(constructorComboBox.getSelectedIndex());
-					String[][] data = new String[params.length][2];
-					for (int i = 0; i < params.length; i++) {
-						data[i][0] = params[i].getTypeName();
+					constructorParams = params;
+					String[][] data = new String[constructorParams.length][2];
+					for (int i = 0; i < constructorParams.length; i++) {
+						data[i][0] = constructorParams[i].getTypeName();
 						data[i][1] = null;
+						inputParams.add(null);
 					}
 					DefaultTableModel paramModel = new DefaultTableModel(data, new String[] { "Param", "Value" });
 					table.setModel(paramModel);
@@ -184,17 +211,9 @@ public class MainForm extends JFrame {
 					step++;
 					break;
 				case 2:
-					List<String> inputParams = new ArrayList<String>();
 					table.repaint();
-					try {
-						for (int count = 0; count < table.getRowCount(); count++) {
-							inputParams.add(table.getValueAt(count, 1).toString());
-						}
-					} catch (NullPointerException inputError) {
-						System.out.println("Please Input at Table\nand Press Enter\n" + inputError);
-						break;
-					}
-					Object createdObject = createObjectInstance.createObject(inputParams.toArray());
+
+					createdObject = createObjectInstance.createObject(inputParams.toArray());
 
 					if (createdObject == null) {
 						System.out.println("Could not Create Object");
@@ -226,16 +245,24 @@ public class MainForm extends JFrame {
 					for (Method method : createObjectInstance.instance.getClass().getMethods()) {
 						instanceMethodComboBox.addItem(method.toString());
 					}
-										
+					
 					Field[] instanceFields = createObjectInstance.getFields();
 					if(instanceFields != null) {
 						
 						try {
-							String[][] instanceFieldsString = new String[instanceFields.length][2];						
+							String[][] instanceFieldsString = new String[instanceFields.length][2];
+							instanceFieldTypes.clear();
 							for (int i = 0; i < instanceFields.length; i++) {
 								instanceFieldsString[i][0] = instanceFields[i].getName();
+								instanceFieldTypes.add(instanceFields[i].getType().toString());
 								try {
-									instanceFieldsString[i][1] = instanceFields[i].get(createObjectInstance.instance).toString();
+									if(instanceFields[i].get(createObjectInstance.instance) != null) {
+										instanceFieldsString[i][1] = instanceFields[i].get(createObjectInstance.instance).toString();
+										instanceParams.add(instanceFields[i].get(createObjectInstance.instance));
+									} else
+									{
+										instanceParams.add(null);
+									}
 								} catch (IllegalArgumentException | IllegalAccessException e1) {
 									System.out.println(e1);
 									step = 0;
@@ -260,7 +287,9 @@ public class MainForm extends JFrame {
 			}
 		});
 
+		// Class Constructor Param
 		table = new JTable();
+		table.addMouseListener(new JTableButtonMouseListener(table, inputParams));
 		table.setBorder(UIManager.getBorder("TitledBorder.border"));
 		DefaultTableModel defaultTableModel = new DefaultTableModel(new Object[][] {},
 				new String[] { "Param", "Value" });
@@ -316,10 +345,10 @@ public class MainForm extends JFrame {
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		GridBagConstraints gbc_scroll_table1 = new GridBagConstraints();
 		gbc_scroll_table1.fill = GridBagConstraints.BOTH;
-		gbc_scroll_table1.insets = new Insets(0, 0, 0, 5);
+		gbc_scroll_table1.insets = new Insets(0, 0, 5, 5);
 		gbc_scroll_table1.gridwidth = 2;
 		gbc_scroll_table1.gridx = 2;
-		gbc_scroll_table1.gridy = 11;
+		gbc_scroll_table1.gridy = 12;
 		contentPane.add(table1Scrollpane, gbc_scroll_table1);
 		
 		consoleTextArea.setForeground(Color.WHITE);
@@ -334,8 +363,8 @@ public class MainForm extends JFrame {
 		JScrollPane consoleTextAreaScrollpane = new JScrollPane(consoleTextArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		GridBagConstraints gbc_scroll_consoleTextArea = new GridBagConstraints();
-		gbc_scroll_consoleTextArea.insets = new Insets(0, 0, 0, 5);
-		gbc_scroll_consoleTextArea.gridheight = 7;
+		gbc_scroll_consoleTextArea.insets = new Insets(0, 0, 5, 5);
+		gbc_scroll_consoleTextArea.gridheight = 8;
 		gbc_scroll_consoleTextArea.gridwidth = 2;
 		gbc_scroll_consoleTextArea.fill = GridBagConstraints.BOTH;
 		gbc_scroll_consoleTextArea.gridx = 0;
@@ -357,7 +386,8 @@ public class MainForm extends JFrame {
 		tabbedPane.setSelectedIndex(-1);
 		tabbedPane.setToolTipText("");
 		GridBagConstraints gbc_tabbedPane = new GridBagConstraints();
-		gbc_tabbedPane.gridheight = 7;
+		gbc_tabbedPane.insets = new Insets(0, 0, 5, 0);
+		gbc_tabbedPane.gridheight = 8;
 		gbc_tabbedPane.fill = GridBagConstraints.BOTH;
 		gbc_tabbedPane.gridx = 4;
 		gbc_tabbedPane.gridy = 5;
@@ -381,22 +411,6 @@ public class MainForm extends JFrame {
 		gbc_lblCurrentinStance.gridy = 0;
 		panel.add(lblCurrentinStance, gbc_lblCurrentinStance);
 
-//		lblField = new JLabel("Field");
-//		GridBagConstraints gbc_lblField = new GridBagConstraints();
-//		gbc_lblField.anchor = GridBagConstraints.WEST;
-//		gbc_lblField.insets = new Insets(0, 0, 5, 5);
-//		gbc_lblField.gridx = 0;
-//		gbc_lblField.gridy = 0;
-//		panel.add(lblField, gbc_lblField);
-//
-//		instanceFieldTextField = new JTextField();
-//		instanceFieldTextField.setColumns(10);
-//		GridBagConstraints gbc_instanceFieldTextField = new GridBagConstraints();
-//		gbc_instanceFieldTextField.insets = new Insets(0, 0, 5, 0);
-//		gbc_instanceFieldTextField.fill = GridBagConstraints.HORIZONTAL;
-//		gbc_instanceFieldTextField.gridx = 1;
-//		gbc_instanceFieldTextField.gridy = 0;
-//		panel.add(instanceFieldTextField, gbc_instanceFieldTextField);
 
 		lblMethod = new JLabel("Method");
 		GridBagConstraints gbc_lblMethod = new GridBagConstraints();
@@ -417,10 +431,14 @@ public class MainForm extends JFrame {
 					}
 					java.lang.reflect.Type[] methodParams = createObjectInstance.getMethodParams(instanceMethodComboBox.getSelectedIndex());
 					String[][] data = new String[methodParams.length][2];
+					instanceMethodParams.clear();
 					for (int i = 0; i < methodParams.length; i++) {
 						data[i][0] = methodParams[i].getTypeName();
 						data[i][1] = null;
+						System.out.println(1);
+						instanceMethodParams.add(null);
 					}
+
 					DefaultTableModel paramModel = new DefaultTableModel(data, new String[] { "Param", "Value" });
 					instanceParamTable.setModel(paramModel);
 					
@@ -432,16 +450,7 @@ public class MainForm extends JFrame {
 					break;
 				default:				
 					instanceParamTable.repaint();
-					List<String> inputParams = new ArrayList<String>();
-					try {
-						for (int count = 0; count < instanceParamTable.getRowCount(); count++) {
-							inputParams.add(instanceParamTable.getValueAt(count, 1).toString());
-						}
-					} catch (Exception inputError) {
-						System.out.println("Please Input at Table\nand Press Enter\n" + inputError);
-						break;
-					}
-					createObjectInstance.runMethod(inputParams.toArray());
+					createObjectInstance.runMethod(instanceMethodParams.toArray());
 					
 					
 					instanceMethodComboBox.removeAllItems();
@@ -454,11 +463,18 @@ public class MainForm extends JFrame {
 					Field[] instanceFields = createObjectInstance.getFields();
 					if(instanceFields != null) {			
 						try {
-							String[][] instanceFieldsString = new String[instanceFields.length][2];						
+							String[][] instanceFieldsString = new String[instanceFields.length][2];
+							instanceFieldTypes.clear();
 							for (int i = 0; i < instanceFields.length; i++) {
 								instanceFieldsString[i][0] = instanceFields[i].getName();
+								instanceFieldTypes.add(instanceFields[i].getType().toString());
 								try {
-									instanceFieldsString[i][1] = instanceFields[i].get(createObjectInstance.instance).toString();
+									if(instanceFields[i].get(createObjectInstance.instance) != null) {
+										instanceFieldsString[i][1] = instanceFields[i].get(createObjectInstance.instance).toString();
+										instanceParams.add(instanceFields[i].get(createObjectInstance.instance));
+									} else {
+										instanceParams.add(null);
+									}
 								} catch (IllegalArgumentException | IllegalAccessException e1) {
 									System.out.println(e1);
 									step = 0;
@@ -499,6 +515,7 @@ public class MainForm extends JFrame {
 		
 		
 		instanceParamTable = new JTable();
+		instanceParamTable.addMouseListener(new JTableButtonMouseListener(instanceParamTable, instanceMethodParams));
 		instanceParamTable.setBorder(UIManager.getBorder("TitledBorder.border"));
 		DefaultTableModel modelInstanceMethodParam = new DefaultTableModel(
 				new Object[][] {},
@@ -523,6 +540,7 @@ public class MainForm extends JFrame {
 		panel.add(instanceParamTableScrollpane, gbc_scroll_instanceParamTable);
 
 		instanceFieldTable = new JTable();
+		instanceFieldTable.addMouseListener(new JTableButtonMouseListener(instanceFieldTable, instanceFieldTypes, instanceParams));
 		instanceFieldTable.setBorder(UIManager.getBorder("TitledBorder.border"));
 		DefaultTableModel modelInstanceField = new DefaultTableModel(
 				new Object[][] {},
@@ -553,25 +571,21 @@ public class MainForm extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				List<String> inputParams = new ArrayList<String>();
 				instanceFieldTable.repaint();
-				try {
-					for (int count = 0; count < instanceFieldTable.getRowCount(); count++) {
-						inputParams.add(instanceFieldTable.getValueAt(count, 1).toString());
-					}
-				} catch (Exception inputError) {
-					System.out.println("!!Please Input at Table and Press Enter!!\n" + inputError);
-				}
-				createObjectInstance.changeFields(inputParams.toArray());
+				createObjectInstance.changeFields(instanceParams.toArray());
 				
 				Field[] instanceFields = createObjectInstance.getFields();
 				if(instanceFields != null) {			
 					try {
-						String[][] instanceFieldsString = new String[instanceFields.length][2];						
+						String[][] instanceFieldsString = new String[instanceFields.length][2];	
+						instanceFieldTypes.clear();
 						for (int i = 0; i < instanceFields.length; i++) {
 							instanceFieldsString[i][0] = instanceFields[i].getName();
+							instanceFieldTypes.add(instanceFields[i].getType().toString());
 							try {
-								instanceFieldsString[i][1] = instanceFields[i].get(createObjectInstance.instance).toString();
+								if(instanceFields[i].get(createObjectInstance.instance) != null) {
+									instanceFieldsString[i][1] = instanceFields[i].get(createObjectInstance.instance).toString();									
+								}
 							} catch (IllegalArgumentException | IllegalAccessException e1) {
 								System.out.println(e1);
 								step = 0;
@@ -595,7 +609,21 @@ public class MainForm extends JFrame {
 		gbc_btnChangeFields.gridx = 1;
 		gbc_btnChangeFields.gridy = 6;
 		panel.add(btnChangeFields, gbc_btnChangeFields);
-
+		
+		
+		// Set To Param
+		btnSetToParam = new JButton("set to param");
+		GridBagConstraints gbc_btnSetToParam = new GridBagConstraints();
+		gbc_btnSetToParam.insets = new Insets(0, 0, 0, 5);
+		gbc_btnSetToParam.gridx = 3;
+		gbc_btnSetToParam.gridy = 13;
+		contentPane.add(btnSetToParam, gbc_btnSetToParam);
+		btnSetToParam.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				parentsInputParams.set(parentIndex, createdObject);
+			}
+		});
 	}
-
 }
