@@ -107,7 +107,7 @@ public class ParamInput extends JFrame {
 					break;
 				
 				case "boolean":
-					inputParams.set(index, new Boolean(textField.getText()));
+					inputParams.set(index, Boolean.valueOf(textField.getText()));
 					break;
 				
 				case "char":
