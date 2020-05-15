@@ -29,15 +29,18 @@ public class ParamInput extends JFrame {
 	private List<Object> inputParams = new ArrayList<Object>();
 	private int index = 0;
 	private boolean visibleForm = false;
+	private boolean isArray = false;
+	private int arrayNum = 1;
 	
 	/**
 	 * Create the frame.
 	 */
-	public ParamInput(String typeName, List<Object> inputParams, int index) {
+	public ParamInput(String typeName, List<Object> inputParams, int index, boolean isArray) {
 		
 		this.typeName = typeName;
 		this.inputParams = inputParams;
 		this.index = index;
+		this.isArray = isArray;
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
@@ -55,7 +58,8 @@ public class ParamInput extends JFrame {
 		
 		
 		// typeName
-		JLabel lblType = new JLabel(this.typeName);
+		String label = isArray(this.typeName)? "num array" : this.typeName;
+		JLabel lblType = new JLabel(label);
 		GridBagConstraints gbc_lblType = new GridBagConstraints();
 		gbc_lblType.insets = new Insets(0, 0, 5, 5);
 		gbc_lblType.gridx = 1;
@@ -65,7 +69,7 @@ public class ParamInput extends JFrame {
 		
 		// input value 
 		textField = new JTextField();
-		textField.setVisible(this.isPremitive(typeName));
+		textField.setVisible(this.isPremitive(typeName) || this.isArray);
 		GridBagConstraints gbc_textField = new GridBagConstraints();
 		gbc_textField.insets = new Insets(0, 0, 5, 5);
 		gbc_textField.gridx = 1;
@@ -84,54 +88,66 @@ public class ParamInput extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				switch (typeName) {
+				if(isArray) {
+					ArrayInput frame = new ArrayInput(typeName, inputParams, index, Integer.parseInt(textField.getText()));
+					frame.setVisible(true);
+					close();
+				} else {
+					switch (typeName) {
 					
-				case "int":
-					inputParams.set(index, Integer.parseInt(textField.getText())) ;
-					break;
+					case "byte":
+						inputParams.set(index, Byte.parseByte(textField.getText())) ;
+						break;
 					
-				case "short":
-					inputParams.set(index, Short.parseShort(textField.getText()));
-					break;
-				
-				case "long":
-					inputParams.set(index, Long.parseLong(textField.getText()));
-					break;
+					case "int":
+						inputParams.set(index, Integer.parseInt(textField.getText())) ;
+						break;
+						
+					case "short":
+						inputParams.set(index, Short.parseShort(textField.getText()));
+						break;
 					
-				case "float":
-					inputParams.set(index, Float.parseFloat(textField.getText()));
-					break;
-				
-				case "double":
-					inputParams.set(index, Double.parseDouble(textField.getText()));
-					break;
-				
-				case "boolean":
-					inputParams.set(index, Boolean.valueOf(textField.getText()));
-					break;
-				
-				case "char":
-					inputParams.set(index, textField.getText());
-					break;
+					case "long":
+						inputParams.set(index, Long.parseLong(textField.getText()));
+						break;
+						
+					case "float":
+						inputParams.set(index, Float.parseFloat(textField.getText()));
+						break;
+					
+					case "double":
+						inputParams.set(index, Double.parseDouble(textField.getText()));
+						break;
+					
+					case "boolean":
+						inputParams.set(index, Boolean.valueOf(textField.getText()));
+						break;
+					
+					case "char":
+						inputParams.set(index, textField.getText());
+						break;
 
-				case "java.lang.String":
-					inputParams.set(index, textField.getText());
-					break;
+					case "java.lang.String":
+						inputParams.set(index, textField.getText());
+						break;
+						
+					case "class java.lang.String":
+						inputParams.set(index, textField.getText());
+						break;	
 					
-				case "class java.lang.String":
-					inputParams.set(index, textField.getText());
-					break;	
-				
-				default:
-					try {
-						MainForm frame = new MainForm(inputParams, index);
-						frame.setVisible(true);
-					} catch (Exception CreateNewWindowException) {
-						CreateNewWindowException.printStackTrace();
+					default:
+						try {
+							MainForm frame = new MainForm(inputParams, index);
+							frame.setVisible(true);
+						} catch (Exception CreateNewWindowException) {
+							CreateNewWindowException.printStackTrace();
+						}
+						break;
 					}
-					break;
+					close();
+					
 				}
-				close();
+				
 			}			
 		});
 	}
@@ -140,10 +156,19 @@ public class ParamInput extends JFrame {
 		this.dispose();
 	}
 	
-	private boolean isPremitive(String typeName) {
+	private boolean isArray(String typeName) {
+		boolean isArray = false;
+		if(typeName.contains("[")) {
+			isArray = true;
+		}	
+		return isArray;
+	}
+	
+	private boolean isPremitive(String typeName) {		
 		boolean isPremitive = false;
 		switch (typeName) {
 		
+		case "byte":
 		case "int":	
 		case "short":
 		case "long":

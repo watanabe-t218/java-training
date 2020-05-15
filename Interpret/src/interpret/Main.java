@@ -1,6 +1,7 @@
 package interpret;
 
-import java.awt.EventQueue;
+import javax.swing.*;
+import java.awt.*;
 
 public class Main {
 	
@@ -13,6 +14,7 @@ public class Main {
 				try {
 					MainForm frame = new MainForm();
 					frame.setVisible(true);
+					frame.setMaximumSize(new Dimension(10000, 10000));
 					FrameJTextAreaStream frameJTextAreaStream = new FrameJTextAreaStream();
 					frameJTextAreaStream.setVisible(true);
 				} catch (Exception e) {

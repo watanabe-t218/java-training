@@ -5,6 +5,7 @@ public class TestClass {
 	private String strPrivate;
 	private int intPrivate;
 	private TestClass testClass;
+	private int[] intArray;
 
 	final private String strPrivateFinal;
 	static final private String strPrivateFinalStatic = "defaultStrPrivateFinalStatic";
@@ -32,6 +33,17 @@ public class TestClass {
 		this.strPublic = strPublic;
 		this.strPrivateFinal = "strPrivateFinal";
 		this.testClass = testClass;
+	}
+	
+	public TestClass(String strPublic, int[] intArray) {
+		this.strPublic = strPublic;
+		this.strPrivateFinal = "strPrivateFinal";
+		this.intArray = intArray;
+	}
+
+	public int SumIntAndTestClass() {
+		this.intPrivate += this.testClass.intPrivate;
+		return this.intPrivate;
 	}
 	
 

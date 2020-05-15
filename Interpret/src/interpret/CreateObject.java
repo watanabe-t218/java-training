@@ -1,5 +1,7 @@
 package interpret;
 
+import javafx.scene.effect.Reflection;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -33,7 +35,14 @@ public class CreateObject {
 
 		try {
 			cl = Class.forName(className);
-			constructors = cl.getConstructors();
+
+//			constructors = cl.getConstructors();
+			constructors = cl.getDeclaredConstructors();
+			for (Constructor<?> co:
+				 constructors) {
+				co.setAccessible(true);
+			}
+
 			methods = cl.getMethods();
 			fields = cl.getDeclaredFields();
 			for (Field f : fields) {
@@ -87,18 +96,17 @@ public class CreateObject {
 		}
 	}
 
-	public Object createObject(Object[] params) {
+	public Object createObject(Object... params) {
 		Class<?>[] constructorParams = constructor.getParameterTypes();
 //		castParams(params[0], constructorParams[0]);
 		System.out.println("========[Parameters]========");
-		for (int i = 0; i < constructorParams.length; i++) {
-			System.out.println(params[i].toString());
-		}
 		try {
+			for (int i = 0; i < constructorParams.length; i++) {
+				System.out.println(params[i].toString());
+			}
 			instance = constructor.newInstance(params);
 			System.out.println("========[Creation Complete]========");
-		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
-				| InvocationTargetException e) {
+		} catch (Exception e) {
 			System.out.println(e);
 		}
 		return instance;
