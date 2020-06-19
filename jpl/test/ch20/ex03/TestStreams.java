@@ -23,7 +23,7 @@ public class TestStreams {
 	@Test
 	public void testFileterStream() {
 		final int key = 2016;
-		String str = "abracadabra!";
+		String str = "aaaaaaaaa";
 		byte[] src = str.getBytes();
 		byte[] expected = str.getBytes();
 		for (int i = 0; i < expected.length; i++)
