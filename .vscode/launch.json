@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "CodeLens (Launch) - Main",
+            "request": "launch",
+            "mainClass": "clock22/clock22.Main",
+            "projectName": "clock22"
+        },
+        {
+            "type": "java",
             "name": "CodeLens (Launch) - DelimitedString",
             "request": "launch",
             "mainClass": "ex03.DelimitedString",
